@@ -44,10 +44,49 @@
       </div>
 
       <div id="message-box" class="helper" style="margin-top:12px;"></div>
+
+      <div class="card" style="margin-top:16px;">
+        <h3 style="margin-top:0;margin-bottom:10px;font-weight:800;">Products / Items (preview)</h3>
+        <div id="itemsPreview" class="helper">Loading…</div>
+      </div>
     </main>
   </div>
 
   <script src="./config.js"></script>
   <script src="./assets/app.js"></script>
+  <script>
+    (async function loadPreview(){
+      try {
+        const USE_CORS_PROXY = window.__USE_CORS_PROXY ?? false;
+        const CORS_PROXY = "https://corsproxy.io/?";
+        const apiBase = window.__API_BASE || "";
+        const url = USE_CORS_PROXY 
+          ? CORS_PROXY + encodeURIComponent(apiBase + "/GetConstants")
+          : apiBase + "/GetConstants";
+        
+        const res = await fetch(url, { mode: "cors" });
+        if (!res.ok) throw new Error(await res.text());
+        const response = await res.json();
+        const box = document.getElementById("itemsPreview");
+        
+        // Extract Products from the response
+        const data = response?.data ?? {};
+        const items = Array.isArray(data.Products) ? data.Products : [];
+        
+        if (!items.length) { 
+          box.textContent = "No items yet."; 
+          return; 
+        }
+        
+        box.innerHTML = items
+          .map(item => `<div style="padding:4px 0;">📦 <b>${item.name}</b>${item.unit ? ' — <span class="helper" style="color:#666;">📏 '+item.unit+'</span>' : ''}</div>`)
+          .join("");
+      } catch(e) {
+        console.error("Error loading items:", e);
+        const box = document.getElementById("itemsPreview");
+        if (box) box.textContent = "Could not load items preview: " + e.message;
+      }
+    })();
+  </script>
 </body>
 </html>
