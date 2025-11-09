@@ -23,13 +23,22 @@
   });
 
   // ========= BASE (must be defined in page) =========
-  const BASE = window.__API_BASE || "http://localhost:5129/api/ShipmentCertificate";
-  if (!BASE) {
+  const ORIGINAL_BASE = window.__API_BASE || "https://instant-puerto-spread-cds.trycloudflare.com/Constructioncompany/api/ShipmentCertificate";
+  
+  // CORS Proxy workaround (set window.__USE_CORS_PROXY = true in HTML to enable)
+  const USE_CORS_PROXY = window.__USE_CORS_PROXY ?? false;
+  const CORS_PROXY = "https://corsproxy.io/?";
+  
+  const BASE = USE_CORS_PROXY ? CORS_PROXY + encodeURIComponent(ORIGINAL_BASE) : ORIGINAL_BASE;
+  
+  if (!ORIGINAL_BASE) {
     console.error("window.__API_BASE is empty! Set it in HTML before app.js");
     alert("API base URL is missing.\nSet window.__API_BASE in the HTML before app.js.");
     return;
   }
-  console.log("API BASE =", BASE);
+  console.log("API BASE (original) =", ORIGINAL_BASE);
+  console.log("API BASE (with proxy) =", BASE);
+  console.log("Using CORS Proxy:", USE_CORS_PROXY);
 
   // ========= Global error guard =========
   window.addEventListener("unhandledrejection", (e) => {
@@ -59,6 +68,7 @@
     console.log("POST ->", url, body);
     const res = await fetch(url, {
       method: "POST",
+      mode: "cors",
       headers: {
         "Content-Type": "application/json",
         "Accept": "application/json"
@@ -77,7 +87,11 @@
   async function httpGet(path) {
     const url = BASE + path;
     console.log("GET ->", url);
-    const res = await fetch(url, { method: "GET", headers: { "Accept": "application/json" } });
+    const res = await fetch(url, { 
+      method: "GET", 
+      mode: "cors",
+      headers: { "Accept": "application/json" } 
+    });
     const text = await res.text().catch(() => "");
     if (!res.ok) {
       console.error("GET FAIL", url, "status:", res.status, "body:", text?.slice(0, 300));
@@ -256,7 +270,7 @@ document.addEventListener("DOMContentLoaded", loadConstantsAndFill);
       productId:  Number(getVal("scItem"))     || null,
       customerName: getVal("orderRef") || null,
       cubicTotal: parseFloat(getVal("totalAmount")) || 0.0,
-      elementName: getVal("waterAdded") || null,
+      elementName: getVal("elementName") || null,
       orderNotes: getVal("scNotes") || null,
       certificateNotes: getVal("certificateNote") || null,
       mixerNumber: getVal("mixerNumber") || null,
@@ -269,9 +283,9 @@ document.addEventListener("DOMContentLoaded", loadConstantsAndFill);
     };
 
     if (!payload.customerId) return toast("Please select a customer.", "red");
-    if (!payload.projectId) return toast("Please select a project/site.", "red");
+    if (!payload.deliveryLocationId) return toast("Please select a project/site.", "red");
     if (!payload.productId) return toast("Please select a product.", "red");
-    if (!payload.quantity || payload.quantity <= 0) return toast("Please enter a valid volume.", "red");
+    if (!payload.elementName) return toast("Please enter an Element Name.", "red");
 
     try {
       const res = await httpPost("/AddShipmentCertificate", payload);

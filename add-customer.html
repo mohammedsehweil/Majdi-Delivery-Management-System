@@ -51,25 +51,39 @@
     </main>
   </div>
 
-  <script>
-      window.__API_BASE = "http://localhost:5129/api/ShipmentCertificate";
-  </script>
+  <script src="./config.js"></script>
   <script src="./assets/app.js"></script>
   <script>
    
     (async function loadPreview(){
       try {
-        const res = await fetch((window.__API_BASE||"") + "/customers");
+        const USE_CORS_PROXY = window.__USE_CORS_PROXY ?? false;
+        const CORS_PROXY = "https://corsproxy.io/?";
+        const apiBase = window.__API_BASE || "";
+        const url = USE_CORS_PROXY 
+          ? CORS_PROXY + encodeURIComponent(apiBase + "/customers")
+          : apiBase + "/customers";
+        
+        const res = await fetch(url, { mode: "cors" });
         if (!res.ok) throw new Error(await res.text());
-        const data = await res.json();
+        const response = await res.json();
         const box = document.getElementById("customersPreview");
-        if (!Array.isArray(data) || !data.length) { box.textContent = "No customers yet."; return; }
-        box.innerHTML = data
-          .map(c => `<div>- <b>${c.name}</b>${c.phone ? ' — <span class="helper">'+c.phone+'</span>' : ''}</div>`)
+        
+        // Handle API response structure: { code, message, status, data: [...] }
+        const customers = Array.isArray(response) ? response : (response.data || []);
+        
+        if (!Array.isArray(customers) || !customers.length) { 
+          box.textContent = "No customers yet."; 
+          return; 
+        }
+        
+        box.innerHTML = customers
+          .map(c => `<div style="padding:4px 0;">📋 <b>${c.name}</b>${c.phoneNumber ? ' — <span class="helper" style="color:#666;">📞 '+c.phoneNumber+'</span>' : ''}</div>`)
           .join("");
       } catch(e) {
+        console.error("Error loading customers:", e);
         const box = document.getElementById("customersPreview");
-        if (box) box.textContent = "Could not load customers preview.";
+        if (box) box.textContent = "Could not load customers preview: " + e.message;
       }
     })();
   </script>
