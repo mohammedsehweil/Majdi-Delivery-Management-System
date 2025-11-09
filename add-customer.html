@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Add Customer</title>
+  <link rel="stylesheet" href="./assets/styles.css" />
+</head>
+<body>
+  <div class="layout">
+    
+    <aside class="sidebar">
+      <input class="search" type="text" placeholder="Search the menu..." data-menu-search />
+      <div class="menu-heading">Operations</div>
+      <nav class="menu">
+        <a href="./add-shipping-certificate.html">Add Shipping Certificate</a>
+        <a href="./add-customer.html" class="active">Add Customer</a>
+        <a href="./add-project.html">Add Project</a>
+        <a href="./add-item.html">Add Item</a>
+      </nav>
+    </aside>
+    <main class="main">
+      <h1 class="page-title">Add New Customer</h1>
+
+      <div class="card">
+        <!-- form id/inputs match app.js expectations -->
+        <form id="formAddCustomer" novalidate>
+          <div class="form-group">
+            <label for="customerName">Customer Name (Company/Person)</label>
+            <input id="customerName" name="customerName" type="text" placeholder="e.g., Al-Huda Co." autocomplete="name" />
+            <div class="helper">Required</div>
+          </div>
+
+          <div class="form-group" style="margin-top:12px;">
+            <label for="customerPhone">Phone / Contact</label>
+            <input id="customerPhone" name="customerPhone" type="tel" placeholder="05XXXXXXXX" autocomplete="tel" />
+            <div class="helper">Optional — saved if provided</div>
+          </div>
+          <div class="actions" style="margin-top:16px;">
+            <button class="btn btn-primary" type="submit">Save Customer</button>
+
+          </div>
+        </form>
+      </div>
+      <div id="message-box" class="helper" style="margin-top:12px;"></div>
+
+      <div class="card" style="margin-top:16px;">
+        <h3 style="margin-top:0;margin-bottom:10px;font-weight:800;">Customers (preview)</h3>
+        <div id="customersPreview" class="helper">Loading…</div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+      window.__API_BASE = "http://localhost:5129/api/ShipmentCertificate";
+  </script>
+  <script src="./assets/app.js"></script>
+  <script>
+   
+    (async function loadPreview(){
+      try {
+        const res = await fetch((window.__API_BASE||"") + "/customers");
+        if (!res.ok) throw new Error(await res.text());
+        const data = await res.json();
+        const box = document.getElementById("customersPreview");
+        if (!Array.isArray(data) || !data.length) { box.textContent = "No customers yet."; return; }
+        box.innerHTML = data
+          .map(c => `<div>- <b>${c.name}</b>${c.phone ? ' — <span class="helper">'+c.phone+'</span>' : ''}</div>`)
+          .join("");
+      } catch(e) {
+        const box = document.getElementById("customersPreview");
+        if (box) box.textContent = "Could not load customers preview.";
+      }
+    })();
+  </script>
+</body>
+</html>

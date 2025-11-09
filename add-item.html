@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Add Product / Item</title>
+  <link rel="stylesheet" href="./assets/styles.css" />
+</head>
+<body>
+  <div class="layout">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="section-title">Accounting</div>
+      <input class="search" type="text" placeholder="Search inside menu..." data-menu-search />
+      <div class="menu-heading">Operations</div>
+      <nav class="menu">
+        <a href="./add-shipping-certificate.html">Add Shipping Certificate</a>
+        <a href="./add-customer.html">Add Customer</a>
+        <a href="./add-project.html">Add Site</a>
+        <a href="./add-item.html" class="active">Add Item</a>
+      </nav>
+    </aside>
+
+    <!-- Main -->
+    <main class="main">
+      <h1 class="page-title">Add New Product / Item</h1>
+
+      <div class="card panel">
+        <form id="formAddItem" novalidate>
+          <div class="form-group" style="margin-bottom:12px;">
+            <label for="itemName" class="sr-only">Item Name</label>
+            <input id="itemName" name="itemName" type="text"
+                   placeholder="Item name (e.g., C30 Concrete)" />
+          </div>
+
+          <div class="form-group" style="margin-bottom:12px;">
+            <label for="itemUnit" class="sr-only">Unit of Measure</label>
+            <input id="itemUnit" name="itemUnit" type="text"
+                   placeholder="Unit of measure (e.g., m³)" />
+          </div>
+
+          <button class="btn btn-primary" type="submit">Add Item</button>
+        </form>
+      </div>
+
+      <div id="message-box" class="helper" style="margin-top:12px;"></div>
+    </main>
+  </div>
+
+  <!-- API base (حدّدي الـport/https حسب اللي شغال عندك) -->
+  <script>
+    window.__API_BASE = "http://localhost:5129/api/ShipmentCertificate";
+  </script>
+  <script src="./assets/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Add Site / Project</title>
+  <link rel="stylesheet" href="./assets/styles.css" />
+</head>
+<body>
+  <div class="layout">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="section-title">Accounting</div>
+      <input class="search" type="text" placeholder="Search the menu..." data-menu-search />
+      <div class="menu-heading">Operations</div>
+      <nav class="menu">
+        <a href="./add-shipping-certificate.html">Add Shipping Certificate</a>
+        <a href="./add-customer.html">Add Customer</a>
+        <a href="./add-project.html" class="active">Add Site</a>
+        <a href="./add-item.html">Add Item</a>
+      </nav>
+    </aside>
+
+    <!-- Main -->
+    <main class="main">
+      <h1 class="page-title">Add New Site</h1>
+
+      <div class="card panel">
+        <form id="formAddProject" novalidate>
+          <div class="form-group" style="margin-bottom:12px;">
+            <label for="projectName" class="sr-only">Project/Site Name</label>
+            <input id="projectName" name="projectName" type="text"
+                   placeholder="Project/Site Name" />
+          </div>
+
+          <div class="form-group" style="margin-bottom:12px;">
+            <label for="projectAddress" class="sr-only">Address / Site Description</label>
+            <input id="projectAddress" name="projectAddress" type="text"
+                   placeholder="Address / Site Description" />
+          </div>
+
+          <button class="btn btn-primary" type="submit">Add Site</button>
+        </form>
+      </div>
+
+      <div id="message-box" class="helper" style="margin-top:12px;"></div>
+    </main>
+  </div>
+
+  <!-- رابط الـ API -->
+  <script>
+    window.__API_BASE = "http://localhost:5129/api/ShipmentCertificate";
+  </script>
+  <script src="./assets/app.js"></script>
+</body>
+</html>

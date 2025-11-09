@@ -1,0 +1,357 @@
+/* ================================
+   Reset + Base
+================================ */
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", Tahoma, Arial, sans-serif;
+  background: #f7f9fc;
+  color: #1f2937;
+  direction: ltr; /* LTR */
+}
+
+/* ================================
+   Layout
+================================ */
+.layout {
+  display: grid;
+  grid-template-columns: 300px 1fr; /* Sidebar يسار، محتوى يمين */
+  min-height: 100vh;
+}
+
+/* ================================
+   Sidebar
+================================ */
+.sidebar {
+  background: #ffffff;
+  border-right: 1px solid #e6eaf0;
+  padding: 16px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+}
+.sidebar .section-title {
+  font-weight: 700;
+  font-size: 18px;
+  margin: 8px 0 12px;
+  color: #111827;
+}
+.sidebar .search {
+  display: block;
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  outline: none;
+}
+.sidebar .menu-heading {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  color: #2563eb;
+  margin: 16px 0 8px;
+}
+.sidebar .menu {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 8px;
+}
+.menu a {
+  text-decoration: none;
+  color: #111827;
+  background: #ffffff;
+  border: 1px solid #e6eaf0;
+  padding: 12px 14px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: background 0.15s ease, transform 0.05s ease;
+}
+.menu a:hover { background: #f3f6fb; }
+.menu a:active { transform: translateY(1px); }
+.menu a.active {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+}
+
+/* ================================
+   Main / Cards / Forms
+================================ */
+.main { padding: 24px; }
+.page-title { font-size: 22px; font-weight: 800; margin: 0 0 18px; }
+
+.card {
+  background: #ffffff;
+  border: 1px solid #e6eaf0;
+  border-radius: 16px;
+  padding: 18px;
+  box-shadow: 0 4px 8px rgba(17, 24, 39, 0.03);
+}
+
+/* نموذج الورقة: عرض مضبوط ليلائم A4 داخل الطباعة */
+.paper-form {
+  max-width: 190mm; /* آمن داخل A4 */
+  margin: 0 auto;
+}
+
+/* شبكة الفورم */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 12px;
+}
+.form-grid.compact { gap: 4px; }
+
+.form-group { grid-column: span 12; margin-bottom: 8px; }
+.form-group.half    { grid-column: span 6; }
+.form-group.third   { grid-column: span 4; }
+.form-group.quarter { grid-column: span 3; }
+
+label { display: block; font-weight: 600; margin-bottom: 6px; }
+
+/* الحقول */
+input[type="text"],
+input[type="tel"],
+input[type="date"],
+input[type="number"],
+input[type="time"],
+select,
+textarea {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  outline: none;
+  background: #fff;
+  height: 30px;
+}
+textarea {
+  min-height: 90px;
+  height: auto;
+  resize: vertical;
+}
+
+/* ملاحظات سطر واحد */
+.textarea--one-line {
+  height: 30px !important;
+  min-height: 30px !important;
+  resize: none !important;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* صف الملاحظات مع فاصل عمودي */
+.notes-row {
+  display: grid;
+  grid-template-columns: 1fr 1px 1fr;
+  gap: 0;
+  align-items: start;
+}
+.notes-divider {
+  background-color: #e5e7eb;
+  width: 1px;
+  height: 100%;
+  min-height: 80px;
+}
+.notes-col { padding: 0 10px; }
+
+/* أزرار */
+.actions { display: flex; gap: 10px; justify-content: flex-start; margin-top: 12px; }
+.btn {
+  border: 1px solid transparent;
+  border-radius: 12px;
+  padding: 10px 14px;
+  cursor: pointer;
+  font-weight: 700;
+}
+.btn-primary { background: #2563eb; color: #fff; }
+.btn-secondary { background: #f3f4f6; color: #111827; border-color: #e5e7eb; }
+.helper { font-size: 12px; color: #6b7280; margin-top: 4px; }
+
+/* شاشات صغيرة */
+@media (max-width: 992px) {
+  .layout { grid-template-columns: 1fr; }
+  .sidebar {
+    position: relative;
+    height: auto;
+    border-right: none;
+    border-bottom: 1px solid #e6eaf0;
+  }
+}
+
+/* ================================
+   Print (A4) — Clean & Reliable
+================================ */
+@page {
+  size: A4;
+  margin: 10mm;
+}
+
+@media print {
+  /* ثبات الألوان في الطباعة */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* تصغير النص والمسافات */
+  .paper-form, .paper-form * { font-size: 10px; line-height: 1.2; }
+  .form-grid { gap: 4px; }
+  .form-group { margin-bottom: 4px; padding-bottom: 3px; }
+  .form-group > label { margin-bottom: 2px; }
+
+  /* إخفاء ما لا يلزم */
+  .no-print, button, .actions { display: none !important; }
+
+  /* عرض الحقول كنصوص */
+  input, select, textarea {
+    border: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    outline: none !important;
+    pointer-events: none !important;
+    color: #000 !important;
+    font-weight: 600;
+    height: auto;
+    padding: 0;
+  }
+
+  /* ✅ خط سفلي فقط للمجموعات التي تحتوي حقولًا/محتوى فعلي */
+  .form-group:has(input, select, textarea, .lab-line, .lab-note, .card) {
+    border-bottom: 0.5pt solid #000 !important;
+  }
+
+  /* 🚫 لا نضيف خطوط علوية عامة للأقسام (تجنّب تكرار الخطوط) */
+
+  /* ✅ صناديق واضحة */
+  .card, .lab-box {
+    border: 0.75pt solid #000 !important;
+    box-shadow: none !important;
+    background: transparent !important;
+  }
+  .lab-line, .lab-note, .lab-stamp {
+    border-color: #000 !important;
+    color: #000 !important;
+    background: transparent !important;
+  }
+
+  /* ✅ الفاصل العمودي بين الملاحظتين يصبح أسود */
+  .notes-divider { background-color: #000 !important; }
+
+  /* إزالة إطار وعظل الورقة فقط */
+  .paper-form { border: none !important; box-shadow: none !important; }
+
+  /* منع تقطيع العناصر بين الصفحات */
+  .paper-form, .form-grid, .form-group, .lab-box, .notes-row {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  /* (اختياري) كلاسات للتحكم اليدوي عند الحاجة */
+  .print-top-border { border-top: 0.5pt solid #000 !important; }
+  .print-no-underline { border-bottom: none !important; }
+}
+/* ====== PRINT: start underlines from Customer downwards ====== */
+@media print {
+  * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+
+  /* عرض الحقول كنصوص فقط */
+  input, select, textarea {
+    border: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    outline: none !important;
+    pointer-events: none !important;
+    color: #000 !important;
+    font-weight: 600;
+    height: auto;
+    padding: 0;
+  }
+
+  /* لا خطوط لترويسة ولا لتاريخ اليوم */
+  .card.paper-form > .form-grid:first-of-type .form-group,
+  .card.paper-form > .form-grid:nth-of-type(2) .form-group {
+    border: none !important;
+  }
+
+  /* 🔹 الخطوط تبدأ من أول قسم فيه Customer */
+  #formAddShippingCert .form-grid .form-group { border-bottom: none !important; }
+
+  /* من أول Customer ولحد آخر الصفحة خطوط واضحة */
+  #formAddShippingCert .form-group:has(#scCustomer),
+  #formAddShippingCert .form-group:has(#scCustomer) ~ .form-group {
+    border-bottom: 0.5pt solid #000 !important;
+  }
+
+  /* الأقسام اللي بعد Customer كمان نطبق فيها الخطوط */
+  #formAddShippingCert > .form-grid:has(#scCustomer) ~ * .form-group {
+    border-bottom: 0.5pt solid #000 !important;
+  }
+
+  /* فاصل الملاحظتين أسود */
+  .notes-divider { background-color: #000 !important; }
+
+  /* صناديق المختبر */
+  .lab-box { border: 0.75pt solid #000 !important; background: transparent !important; }
+  .lab-line, .lab-note, .lab-stamp {
+    border-color: #000 !important; color: #000 !important; background: transparent !important;
+  }
+
+  /* إخفاء الأزرار وما لا يلزم */
+  .no-print, button, .actions { display: none !important; }
+
+  /* مقاسات الطباعة وتباعد بسيط */
+  .paper-form, .paper-form * { font-size: 10px; line-height: 1.2; }
+  .form-grid { gap: 4px; }
+  .form-group { margin-bottom: 4px; padding-bottom: 3px; }
+  .form-group > label { margin-bottom: 2px; }
+
+  /* منع التقطيع بين الصفحات */
+  .paper-form, .form-grid, .form-group, .lab-box, .notes-row {
+    break-inside: avoid; page-break-inside: avoid;
+  }
+}
+/* ===== Small Sampling Box Style ===== */
+.mini-sample {
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 10px 14px;
+  background: #fff;
+  max-width: 520px;
+  font-size: 13px;
+  line-height: 1.4;
+}
+.mini-sample__title {
+  font-weight: 700;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+.mini-sample__row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin: 6px 0;
+}
+.mini-sample__inline {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+.mini-sample__label {
+  color: #374151;
+  min-width: 130px;
+  font-weight: 500;
+}
+.mini-sample__note {
+  margin-top: 8px;
+  font-size: 12px;
+  color: #6b7280;
+}
