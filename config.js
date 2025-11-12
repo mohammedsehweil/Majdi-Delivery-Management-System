@@ -5,7 +5,7 @@
  */
 
 // API Base URL
-window.__API_BASE = "https://instant-puerto-spread-cds.trycloudflare.com/Constructioncompany/api/ShipmentCertificate";
+window.__API_BASE = "https://dns-ranch-communist-attractions.trycloudflare.com/ConstructionCompany/api/ShipmentCertificate";
 
 // CORS Proxy Settings
 // Set to true if you encounter CORS issues and need to use a proxy
