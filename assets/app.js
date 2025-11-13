@@ -23,7 +23,7 @@
   });
 
   // ========= BASE (must be defined in page) =========
-  const ORIGINAL_BASE = window.__API_BASE || "https://instant-puerto-spread-cds.trycloudflare.com/Constructioncompany/api/ShipmentCertificate";
+  const ORIGINAL_BASE = window.__API_BASE || "https://dns-ranch-communist-attractions.trycloudflare.com/ConstructionCompany/api/ShipmentCertificate";
   
   // CORS Proxy workaround (set window.__USE_CORS_PROXY = true in HTML to enable)
   const USE_CORS_PROXY = window.__USE_CORS_PROXY ?? false;
