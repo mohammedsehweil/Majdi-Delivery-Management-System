@@ -23,7 +23,7 @@
   });
 
   // ========= BASE (must be defined in page) =========
-  const ORIGINAL_BASE = window.__API_BASE = "https://suites-bunch-copying-wifi.trycloudflare.com/ConstructionCompany/api/ShipmentCertificate";
+  const ORIGINAL_BASE = window.__API_BASE = "https://enquiries-brandon-commons-pin.trycloudflare.com/ConstructionCompany/api/ShipmentCertificate";
 
   
   // CORS Proxy workaround (set window.__USE_CORS_PROXY = true in HTML to enable)
