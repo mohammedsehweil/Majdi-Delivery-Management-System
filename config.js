@@ -5,7 +5,7 @@
  */
 
 // API Base URL
-window.__API_BASE = "https://hide-into-belong-contributor.trycloudflare.com/ConstructionCompany/api/ShipmentCertificate";
+window.__API_BASE = "https://suites-bunch-copying-wifi.trycloudflare.com/ConstructionCompany/api/ShipmentCertificate";
 
 
 // CORS Proxy Settings
