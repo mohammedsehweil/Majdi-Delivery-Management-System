@@ -21,25 +21,24 @@
       if (href && href.endsWith(path)) a.classList.add("active");
     });
   });
-// ========= BASE (must be defined in page) =========
-const ORIGINAL_BASE = window.__API_BASE || "https://hide-into-belong-contributor.trycloudflare.com/ConstructionCompany/api";
 
-// CORS Proxy workaround (set window.__USE_CORS_PROXY = true in HTML to enable)
-const USE_CORS_PROXY = window.__USE_CORS_PROXY ?? false;
-const CORS_PROXY = "https://corsproxy.io/?";
-
-const BASE = USE_CORS_PROXY ? CORS_PROXY + encodeURIComponent(ORIGINAL_BASE) : ORIGINAL_BASE;
-
-if (!ORIGINAL_BASE) {
-  console.error("window.__API_BASE is empty! Set it in HTML before app.js");
-  alert("API base URL is missing.\nSet window.__API_BASE in the HTML before app.js.");
-  return;
-}
-
-console.log("API BASE (original) =", ORIGINAL_BASE);
-console.log("API BASE (with proxy) =", BASE);
-console.log("Using CORS Proxy:", USE_CORS_PROXY);
-
+  // ========= BASE (must be defined in page) =========
+  const ORIGINAL_BASE = window.__API_BASE = "https://hide-into-belong-contributor.trycloudflare.com/ConstructionCompany/api/ShipmentCertificate";
+  
+  // CORS Proxy workaround (set window.__USE_CORS_PROXY = true in HTML to enable)
+  const USE_CORS_PROXY = window.__USE_CORS_PROXY ?? false;
+  const CORS_PROXY = "https://corsproxy.io/?";
+  
+  const BASE = USE_CORS_PROXY ? CORS_PROXY + encodeURIComponent(ORIGINAL_BASE) : ORIGINAL_BASE;
+  
+  if (!ORIGINAL_BASE) {
+    console.error("window.__API_BASE is empty! Set it in HTML before app.js");
+    alert("API base URL is missing.\nSet window.__API_BASE in the HTML before app.js.");
+    return;
+  }
+  console.log("API BASE (original) =", ORIGINAL_BASE);
+  console.log("API BASE (with proxy) =", BASE);
+  console.log("Using CORS Proxy:", USE_CORS_PROXY);
 
   // ========= Global error guard =========
   window.addEventListener("unhandledrejection", (e) => {
